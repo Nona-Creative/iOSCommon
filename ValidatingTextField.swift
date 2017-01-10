@@ -951,6 +951,14 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         return true
     }
     
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        if let retFunc = self.chainDelegate?.textFieldShouldClear {
+            return retFunc(textField)
+        }
+        
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // Prevent crashing undo bug
         if range.length + range.location > textField.text!.characters.count
