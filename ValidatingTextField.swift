@@ -414,6 +414,9 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     
     fileprivate var displayButton: UIButton!
     
+    fileprivate var rightViewValid: UIView?
+    fileprivate var displayingRightViewValid = false
+    
     #if LIBPHONENUMBER
     fileprivate var phoneNumberUtil: NBPhoneNumberUtil!
     fileprivate var phoneNumberFormatter: NBAsYouTypeFormatter!
@@ -673,16 +676,10 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     
     fileprivate func setupRightView() {
         if let rightImageValid = rightImageValid {
-            self.rightViewMode = .always
             let imageView: UIImageView = UIImageView(image: rightImageValid)
-            let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: rightImageValid.size.width + rightViewInset, height: rightImageValid.size.height))
-            view.addSubview(imageView)
+            rightViewValid = UIView(frame: CGRect(x: 0, y: 0, width: rightImageValid.size.width + rightViewInset, height: rightImageValid.size.height))
+            rightViewValid!.addSubview(imageView)
             imageView.frame = CGRect(x: 0, y: 0, width: rightImageValid.size.width, height: rightImageValid.size.height)
-            self.rightView = view
-            self.rightView!.alpha = 0
-        } else {
-            self.rightViewMode = .never
-            self.rightView = nil
         }
     }
     
@@ -707,10 +704,29 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     }
     
     fileprivate func setDisplayRightImageValid(_ display: Bool) {
-        if let view = rightView {
-            UIView.animate(withDuration: appearance.validationAnimationLength, animations: {
-                view.alpha = display ? 1 : 0
-            }) 
+        displayingRightViewValid = display
+        if let view = rightViewValid {
+            if display {
+                if self.rightView == nil {
+                    self.rightViewMode = .always
+                    self.rightView = view
+                    self.rightView!.alpha = 0
+                }
+                UIView.animate(withDuration: appearance.validationAnimationLength, animations: {
+                    view.alpha = 1
+                })
+            } else { // not display
+                if self.rightView != nil {
+                    UIView.animate(withDuration: appearance.validationAnimationLength, animations: {
+                        view.alpha = 0
+                    }, completion: { complete in
+                        if !self.displayingRightViewValid {
+                            self.rightViewMode = .never
+                            self.rightView = nil
+                        }
+                    })
+                }
+            }
         }
     }
     
