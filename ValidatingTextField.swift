@@ -319,6 +319,9 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     /** Another text field that this one should match */
     weak var matchField: ValidatingTextField?
     
+    /** Stop all input for this field */
+    var ignoreInput = false
+    
     /** The current validation status of the field after last validation check*/
     fileprivate var _validationStatus: MutableProperty<ValidationStatus> = MutableProperty<ValidationStatus>(.notValidated)
     var validationStatus: MutableProperty<ValidationStatus> {
@@ -960,6 +963,11 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if ignoreInput {
+            return false
+        }
+        
         // Prevent crashing undo bug
         if range.length + range.location > textField.text!.characters.count
         {
