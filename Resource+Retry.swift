@@ -10,12 +10,12 @@ import Siesta
 import CocoaLumberjack
 
 extension Resource {
-    
+
     /**
      Add automatic retried to a resource, with the given owner object. Retries will stop if owner ceases to exist
-    */
+     */
     func retryWith(owner: AnyObject) -> Self {
-        
+
         self.addObserver(owner: owner) { resource, event in
             switch event {
             case .error:
@@ -24,12 +24,12 @@ extension Resource {
                     resource.loadIfNeeded()
                 }
                 break
-                
+
             default:
                 break
             }
         }
-        
+
         return self
     }
 }

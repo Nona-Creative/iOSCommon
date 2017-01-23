@@ -19,13 +19,13 @@ extension Date {
         components.day = day
         return calendar.date(from: components)!
     }
-    
+
     func dateByAdding(hour: Int, minute: Int, second: Int) -> Date {
         let calendar: Calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         var components: DateComponents = DateComponents()
         components.hour = hour
         components.minute = minute
-        components.second = second        
+        components.second = second
         return (calendar as NSCalendar).date(byAdding: components, to: self, options: [])!
     }
 }

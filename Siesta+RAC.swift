@@ -12,16 +12,16 @@ import ReactiveSwift
 import ReactiveCocoa
 
 extension Resource {
-    
-    func rac_request(method:RequestMethod, json: NSJSONConvertible) -> SignalProducer<Entity<Any>,RequestError> {
+
+    func rac_request(method: RequestMethod, json: NSJSONConvertible) -> SignalProducer<Entity<Any>, RequestError> {
         return SignalProducer { observer, disposable in
             let request = self.request(method, json: json).onSuccess { data in
-                    observer.send(value: data)
-                    observer.sendCompleted()
-                }.onFailure { error in
-                    observer.send(error: error)
+                observer.send(value: data)
+                observer.sendCompleted()
+            }.onFailure { error in
+                observer.send(error: error)
             }
-            
+
             _ = disposable.add {
                 request.cancel()
             }

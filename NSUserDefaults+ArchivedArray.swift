@@ -11,7 +11,7 @@ import Foundation
  Allow saving arrays in NSUserDefaults
  */
 extension UserDefaults {
-    
+
     func setArchivedArray(_ array: [AnyObject]?, forKey key: String) {
         if let array = array {
             let archivedObject = NSKeyedArchiver.archivedData(withRootObject: array)
@@ -20,7 +20,7 @@ extension UserDefaults {
             set(nil, forKey: key)
         }
     }
-    
+
     func archivedArrayForKey(_ key: String) -> [AnyObject]? {
         if let unarchivedObject = UserDefaults.standard.object(forKey: key) as? Data {
             return NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject) as? [AnyObject]

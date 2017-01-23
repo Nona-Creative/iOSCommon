@@ -11,95 +11,89 @@ import UIKit
  Extension to UIImage to allow easy basic scaling and cropping
  */
 extension UIImage {
-    
+
     func scaleTo(width: Float, height: Float, scale: Float = 0) -> UIImage {
         let newSize = CGSize(width: CGFloat(width), height: CGFloat(height))
         UIGraphicsBeginImageContextWithOptions(newSize, false, CGFloat(scale))
-        self.draw(in: CGRect(x: 0,y: 0,width: newSize.width,height: newSize.height))
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage!
     }
-    
+
     func cropSquare() -> UIImage {
         let cropRect: CGRect
         if size.width > size.height {
-            let left = (size.width - size.height)/2
-            cropRect = CGRect(x: left,y: 0,width: size.height,height: size.height)
+            let left = (size.width - size.height) / 2
+            cropRect = CGRect(x: left, y: 0, width: size.height, height: size.height)
         } else {
-            let top = (size.height - size.width)/2
-            cropRect = CGRect(x: 0,y: top,width: size.width,height: size.width)
+            let top = (size.height - size.width) / 2
+            cropRect = CGRect(x: 0, y: top, width: size.width, height: size.width)
         }
-        
+
         let imageRef = self.cgImage?.cropping(to: cropRect)
         let cropped = UIImage(cgImage: imageRef!, scale: 0, orientation: self.imageOrientation)
         return cropped
     }
-    
-    func scaleAndCropToSize(width targetWidth: CGFloat, targetHeight: CGFloat) -> UIImage{
-        
-        let targetSize = CGSize(width: targetWidth,height: targetHeight)
+
+    func scaleAndCropToSize(width targetWidth: CGFloat, targetHeight: CGFloat) -> UIImage {
+
+        let targetSize = CGSize(width: targetWidth, height: targetHeight)
         let scaledWidth: CGFloat
         let scaledHeight: CGFloat
         let thumbnailPoint: CGPoint
-        
-        if self.size.equalTo(targetSize)
-        {
+
+        if self.size.equalTo(targetSize) {
             scaledWidth = targetWidth
             scaledHeight = targetHeight
-            thumbnailPoint = CGPoint(x: 0.0,y: 0.0)
+            thumbnailPoint = CGPoint(x: 0.0, y: 0.0)
         } else {
-            let scaleFactor : CGFloat
-            
+            let scaleFactor: CGFloat
+
             let widthFactor = targetWidth / self.size.width
             let heightFactor = targetHeight / self.size.height
-            
-            if (widthFactor > heightFactor)
-            {
-                scaleFactor = widthFactor; // scale to fit height
-            }
-            else
-            {
-                scaleFactor = heightFactor; // scale to fit width
-            }
-            
-            scaledWidth  = self.size.width * scaleFactor;
-            scaledHeight = self.size.height * scaleFactor;
-            
-            // center the image
-            if (widthFactor > heightFactor)
-            {
-                thumbnailPoint = CGPoint(x: 0.0,y: (targetHeight - scaledHeight) * 0.5);
-            }
-            else if (widthFactor < heightFactor) {
-                thumbnailPoint = CGPoint(x: (targetWidth - scaledWidth) * 0.5,y: 0.0);
+
+            if widthFactor > heightFactor {
+                scaleFactor = widthFactor // scale to fit height
             } else {
-                thumbnailPoint = CGPoint(x: 0.0,y: 0.0)
+                scaleFactor = heightFactor // scale to fit width
+            }
+
+            scaledWidth = self.size.width * scaleFactor
+            scaledHeight = self.size.height * scaleFactor
+
+            // center the image
+            if widthFactor > heightFactor {
+                thumbnailPoint = CGPoint(x: 0.0, y: (targetHeight - scaledHeight) * 0.5)
+            } else if widthFactor < heightFactor {
+                thumbnailPoint = CGPoint(x: (targetWidth - scaledWidth) * 0.5, y: 0.0)
+            } else {
+                thumbnailPoint = CGPoint(x: 0.0, y: 0.0)
             }
         }
-        
-        UIGraphicsBeginImageContext(targetSize); // this will crop
-        
+
+        UIGraphicsBeginImageContext(targetSize) // this will crop
+
         var thumbnailRect = CGRect.zero
-        thumbnailRect.origin = thumbnailPoint;
-        thumbnailRect.size.width  = scaledWidth;
-        thumbnailRect.size.height = scaledHeight;
-        
+        thumbnailRect.origin = thumbnailPoint
+        thumbnailRect.size.width = scaledWidth
+        thumbnailRect.size.height = scaledHeight
+
         self.draw(in: thumbnailRect)
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        //pop the context to get back to the default
-        UIGraphicsEndImageContext();
-        
-        return newImage!;
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        // pop the context to get back to the default
+        UIGraphicsEndImageContext()
+
+        return newImage!
     }
-    
+
     func pngWithSize(width: Float, height: Float) -> Data {
         let newImage = scaleTo(width: width, height: height, scale: 1)
         return UIImagePNGRepresentation(newImage)!
     }
-    
+
     func jpegWithSize(width: Float, height: Float, quality: Float) -> Data {
         let newImage = scaleTo(width: width, height: height, scale: 1)
         return UIImageJPEGRepresentation(newImage, CGFloat(quality))!
