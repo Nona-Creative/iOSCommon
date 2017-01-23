@@ -300,8 +300,10 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
             phoneNumberUtil = NBPhoneNumberUtil()
             do {
                 let example = try phoneNumberUtil.getExampleNumber(forType: phoneNumberCountryCode, type: .MOBILE)
+
                 let exampleFormat = try phoneNumberUtil.format(example, numberFormat: .NATIONAL)
-                self.placeholder = exampleFormat
+            
+                self.placeholder = "e.g. \(exampleFormat)"
                 if phoneNumberCountryCode!.lowercased() == "za" {
                     self.validationChecks.insert(.minimumLength(minimumLength: 12))
                     self.limitMaximumLength = 12
