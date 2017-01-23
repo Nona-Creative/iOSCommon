@@ -51,6 +51,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         var textInsetLeft: CGFloat
         var textInsetRight: CGFloat
         var textInsetRightEditing: CGFloat
+        var textInsetRightPlaceholder: CGFloat
         var validationAnimationLength: Double
     }
 
@@ -73,6 +74,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
                           textInsetLeft: 10,
                           textInsetRight: 10,
                           textInsetRightEditing: 5,
+                          textInsetRightPlaceholder: 15,
                           validationAnimationLength: 0.25)
     }
 
@@ -218,6 +220,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     @IBInspectable var textInsetLeft: CGFloat!
     @IBInspectable var textInsetRight: CGFloat!
     @IBInspectable var textInsetRightEditing: CGFloat!
+    @IBInspectable var textInsetRightPlaceholder: CGFloat!
     @IBInspectable var showSecureTextToggle: Bool = false
 
     @IBInspectable var rightImageShowSecureText: UIImage? {
@@ -302,7 +305,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
                 let example = try phoneNumberUtil.getExampleNumber(forType: phoneNumberCountryCode, type: .MOBILE)
 
                 let exampleFormat = try phoneNumberUtil.format(example, numberFormat: .NATIONAL)
-            
+
                 self.placeholder = "e.g. \(exampleFormat)"
                 if phoneNumberCountryCode!.lowercased() == "za" {
                     self.validationChecks.insert(.minimumLength(minimumLength: 12))
@@ -911,6 +914,15 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         return CGRect(x: bounds.origin.x + textInsetLeft + leftViewWidth,
                       y: bounds.origin.y,
                       width: bounds.size.width - (textInsetRightEditing + rightViewWidth + leftViewWidth),
+                      height: bounds.size.height)
+    }
+
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        let textInsetLeft = self.textInsetLeft ?? appearance.textInsetLeft
+        let textInsetRight = self.textInsetRightPlaceholder ?? self.textInsetRightPlaceholder ?? appearance.textInsetRightPlaceholder
+        return CGRect(x: bounds.origin.x + textInsetLeft + leftViewWidth,
+                      y: bounds.origin.y,
+                      width: bounds.size.width - (textInsetRight + rightViewWidth + leftViewWidth),
                       height: bounds.size.height)
     }
 
