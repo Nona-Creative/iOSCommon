@@ -10,7 +10,7 @@ import Foundation
 
 extension UIView {
     func setExclusiveTouchRecursive(_ exclusive: Bool) {
-        isExclusiveTouch = true
+        isExclusiveTouch = exclusive
         for subView in subviews {
             subView.setExclusiveTouchRecursive(exclusive)            
         }
