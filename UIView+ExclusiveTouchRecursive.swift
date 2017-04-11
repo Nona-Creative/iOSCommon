@@ -12,7 +12,7 @@ extension UIView {
     func setExclusiveTouchRecursive(_ exclusive: Bool) {
         isExclusiveTouch = exclusive
         for subView in subviews {
-            subView.setExclusiveTouchRecursive(exclusive)            
+            subView.setExclusiveTouchRecursive(exclusive)
         }
     }
 }
