@@ -264,7 +264,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
 
     // MARK: - Public properties
 
-    override var delegate: UITextFieldDelegate? {
+    override weak var delegate: UITextFieldDelegate? {
         didSet {
             // Make the actual delegate get called after our own internal delegate
             if self.delegate != nil && self.delegate !== self {
@@ -416,7 +416,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
 
     // MARK: - Private properties
 
-    fileprivate var chainDelegate: UITextFieldDelegate?
+    fileprivate weak var chainDelegate: UITextFieldDelegate?
     fileprivate var lastValidated: String = ""
 
     fileprivate var displayButton: UIButton!
