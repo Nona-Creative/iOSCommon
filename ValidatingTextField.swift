@@ -9,7 +9,7 @@ import UIKit
 import ReactiveSwift
 
 #if LIBPHONENUMBER
-import libPhoneNumber_iOS
+import libPhoneNumberiOS
 #endif
 
 protocol ValidatingTextFieldValidator: class {
@@ -757,7 +757,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
 
         #if LIBPHONENUMBER
         if self.validationChecks.contains(.phoneNumber) {
-            let numbersOnly = self.phoneNumberUtil.normalizePhoneNumber(self.text!)
+            let numbersOnly = self.phoneNumberUtil.normalize(self.text!)
             if numbersOnly != "" {
                 let newText = self.phoneNumberFormatter.inputStringAndRememberPosition(numbersOnly)
                 self.text = newText

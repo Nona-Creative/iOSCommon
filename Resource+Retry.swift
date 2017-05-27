@@ -7,7 +7,7 @@
 
 import Foundation
 import Siesta
-import CocoaLumberjack
+import CocoaLumberjackSwift
 
 extension Resource {
 
