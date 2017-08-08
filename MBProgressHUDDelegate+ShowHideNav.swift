@@ -15,9 +15,9 @@ extension MBProgressHUDDelegate where Self: UIViewController {
      Show the HUD over either the view or the NavigationController view as appropriate, with preconfigured animations and look.
      Disable navigation controller gestures if needed.
      */
-    func showHUD(_ message: String) -> MBProgressHUD {
+    func showHUD(_ message: String, onNav: Bool = true) -> MBProgressHUD {
         let hud: MBProgressHUD
-        if let nav = navigationController {
+        if let nav = navigationController, onNav {
             hud = MBProgressHUD.init(view: nav.view)
         } else {
             hud = MBProgressHUD.init(view: self.view)
@@ -35,7 +35,7 @@ extension MBProgressHUDDelegate where Self: UIViewController {
         hud.delegate = self
         hud.show(animated: true)
 
-        if let nav = navigationController {
+        if let nav = navigationController, onNav {
             nav.view.addSubview(hud)
             nav.interactivePopGestureRecognizer!.isEnabled = false
 
@@ -52,9 +52,9 @@ extension MBProgressHUDDelegate where Self: UIViewController {
     /**
      Hide the HUD with appropriate animation
      */
-    func hideHUD(_ hud: MBProgressHUD) {
+    func hideHUD(_ hud: MBProgressHUD, onNav: Bool = true) {
         hud.animationType = .zoomIn
-        if let nav = navigationController {
+        if let nav = navigationController, onNav {
             MBProgressHUD.hide(for: nav.view, animated: true)
         } else {
             MBProgressHUD.hide(for: self.view, animated: true)
