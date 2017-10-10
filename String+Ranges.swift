@@ -21,7 +21,11 @@ extension String {
     }
 
     subscript(r: Range<Int>) -> String {
-        return substring(with: characters.index(startIndex, offsetBy: r.lowerBound) ..< characters.index(startIndex, offsetBy: r.upperBound))
+        return String(self[index(startIndex, offsetBy: r.lowerBound) ... index(startIndex, offsetBy: r.upperBound)])
+    }
+
+    subscript(r: CountableClosedRange<Int>) -> String {
+        return String(self[index(startIndex, offsetBy: r.lowerBound) ... index(startIndex, offsetBy: r.upperBound)])
     }
 
     func rangeFromNSRange(_ nsRange: NSRange) -> Range<String.Index>? {
@@ -32,12 +36,5 @@ extension String {
             return from ..< to
         }
         return nil
-    }
-
-    func NSRangeFromRange(_ range: Range<String.Index>) -> NSRange {
-        let utf16view = self.utf16
-        let from = String.UTF16View.Index(range.lowerBound, within: utf16view)
-        let to = String.UTF16View.Index(range.upperBound, within: utf16view)
-        return NSMakeRange(utf16view.distance(from: utf16view.startIndex, to: from), utf16view.distance(from: from, to: to))
     }
 }
