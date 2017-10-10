@@ -820,7 +820,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         }
 
         let symbol = (Locale.current as NSLocale).object(forKey: NSLocale.Key.decimalSeparator) as! String
-        if range.location == 0 && (string.substring(to: string.characters.index(string.startIndex, offsetBy: 1)) == symbol) {
+        if range.location == 0 && (string[0] == symbol) {
             // decimalseparator should not be first
             return false
         }
@@ -930,7 +930,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         if self.validationChecks.contains(.phoneNumber) {
             if self.text!.hasSuffix(" ") {
                 if self.text!.characters.count > 1 {
-                    self.text = self.text!.substring(to: self.text!.characters.index(self.text!.endIndex, offsetBy: -1))
+                    self.text = String(self.text![..<self.text!.endIndex])
                 }
                 return
             }

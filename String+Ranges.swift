@@ -28,6 +28,18 @@ extension String {
         return String(self[index(startIndex, offsetBy: r.lowerBound) ... index(startIndex, offsetBy: r.upperBound)])
     }
 
+    subscript(value: PartialRangeUpTo<Int>) -> String {
+        return String(self[..<index(startIndex, offsetBy: value.upperBound)])
+    }
+
+    subscript(value: PartialRangeThrough<Int>) -> String {
+        return String(self[...index(startIndex, offsetBy: value.upperBound)])
+    }
+
+    subscript(value: PartialRangeFrom<Int>) -> String {
+        return String(self[index(startIndex, offsetBy: value.lowerBound)...])
+    }
+
     func rangeFromNSRange(_ nsRange: NSRange) -> Range<String.Index>? {
         let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex)!
         let to16 = utf16.index(from16, offsetBy: nsRange.length, limitedBy: utf16.endIndex)!
