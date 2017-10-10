@@ -19,7 +19,7 @@ extension UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
 
         // Measure the string size.
-        var stringSize = string.size(attributes: [NSFontAttributeName: font])
+        var stringSize = string.size(withAttributes: [NSAttributedStringKey.font: font])
 
         // Work out what it should be scaled by to get the desired size.
         var xRatio = size.width / stringSize.width
@@ -34,14 +34,14 @@ extension UIImage {
         var newFont = font.withSize(newFontSize)
 
         // What size is the string with this new font?
-        stringSize = string.size(attributes: [NSFontAttributeName: newFont])
+        stringSize = string.size(withAttributes: [NSAttributedStringKey.font: newFont])
 
         // Work out where the origin of the drawn string should be to get it in the centre of the image.
         var textOrigin = CGPoint(x: (size.width - stringSize.width) / 2,
                                  y: (size.height - stringSize.height) / 2)
 
         // Draw the string into out image.
-        string.draw(at: textOrigin, withAttributes: [NSFontAttributeName: newFont, NSForegroundColorAttributeName: color])
+        string.draw(at: textOrigin, withAttributes: [NSAttributedStringKey.font: newFont, NSAttributedStringKey.foregroundColor: color])
 
         // We actually don't have the scaling right, because the rendered
         // string probably doesn't actually fill the entire pixel area of the
@@ -110,16 +110,16 @@ extension UIImage {
         // Work out where to place the string.
         // We offset the origin by the difference between the string-drawing origin
         // and the 'real' image origin we measured above, scaled up to the new size.
-        stringSize = string.size(attributes: [NSFontAttributeName: newFont])
+        stringSize = string.size(withAttributes: [NSAttributedStringKey.font: newFont])
         textOrigin = CGPoint(x: (size.width - stringSize.width) / 2, y: (size.height - stringSize.height) / 2)
         textOrigin.x += textOriginXDiff * ratio
         textOrigin.y += textOriginYDiff * ratio
 
         // Clear and draw again
         UIGraphicsGetCurrentContext()!.clear(CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        var attributes = [NSFontAttributeName: newFont, NSForegroundColorAttributeName: color] as [String: Any]
+        var attributes = [NSAttributedStringKey.font.rawValue: newFont, NSAttributedStringKey.foregroundColor: color] as! [String: Any]
         if letterpressStyle {
-            attributes[NSTextEffectAttributeName] = NSTextEffectLetterpressStyle
+            attributes[NSAttributedStringKey.textEffect] = NSAttributedString.TextEffectStyle.letterpressStyle
         }
         string.draw(at: textOrigin, withAttributes: attributes)
 

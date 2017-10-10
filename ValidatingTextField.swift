@@ -533,7 +533,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     /**
      Reset the field to a default validation only if it was previously set to invalid
      */
-    func resetInvalid() {
+    @objc func resetInvalid() {
         if validationState == .invalid {
             validationState = .default
         }
@@ -544,14 +544,14 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     /**
      Callback function for text field changes
      */
-    func validateAutomaticEditingChanged(_: UITextField) {
+    @objc func validateAutomaticEditingChanged(_: UITextField) {
         validate(automatic: true, editingChanged: true, editingDidEnd: false)
     }
 
     /**
      Callback function for text field changes
      */
-    func validateAutomaticEditingDidEnd(_: UITextField) {
+    @objc func validateAutomaticEditingDidEnd(_: UITextField) {
         layoutIfNeeded() // Workaround for iOS bug where text jumps and animates down after editing ends
         validate(automatic: true, editingChanged: false, editingDidEnd: true)
     }
@@ -559,7 +559,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     /**
      Display password button clicked
      */
-    func toggleSecureTextEntry() {
+    @objc func toggleSecureTextEntry() {
         // Workaround iOS bug  - font issues when changing from secure to insecure text entry
         if isFirstResponder && isSecureTextEntry {
             let selRange = selectedTextRange
