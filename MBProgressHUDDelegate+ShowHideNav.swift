@@ -18,9 +18,9 @@ extension MBProgressHUDDelegate where Self: UIViewController {
     func showHUD(_ message: String, onNav: Bool = true) -> MBProgressHUD {
         let hud: MBProgressHUD
         if let nav = navigationController, onNav {
-            hud = MBProgressHUD.init(view: nav.view)
+            hud = MBProgressHUD(view: nav.view)
         } else {
-            hud = MBProgressHUD.init(view: self.view)
+            hud = MBProgressHUD(view: view)
         }
 
         // hud.backgroundView.style = .blur
@@ -43,7 +43,7 @@ extension MBProgressHUDDelegate where Self: UIViewController {
                 nav.interactivePopGestureRecognizer!.isEnabled = true
             }
         } else {
-            self.view.addSubview(hud)
+            view.addSubview(hud)
         }
 
         return hud
@@ -57,7 +57,7 @@ extension MBProgressHUDDelegate where Self: UIViewController {
         if let nav = navigationController, onNav {
             MBProgressHUD.hide(for: nav.view, animated: true)
         } else {
-            MBProgressHUD.hide(for: self.view, animated: true)
+            MBProgressHUD.hide(for: view, animated: true)
         }
     }
 }

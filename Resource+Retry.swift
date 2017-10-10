@@ -16,7 +16,7 @@ extension Resource {
      */
     func retryWith(owner: AnyObject) -> Self {
 
-        self.addObserver(owner: owner) { resource, event in
+        addObserver(owner: owner) { resource, event in
             switch event {
             case .error:
                 DDLogWarn("ResourceExtensions: Error retrieving resource \(self), retrying in 5")

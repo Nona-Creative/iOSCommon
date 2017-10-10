@@ -136,9 +136,9 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
 
         var hashValue: Int {
             switch self {
-            case .validateEditingChanged(let automaticInvalid):
+            case let .validateEditingChanged(automaticInvalid):
                 return 1 + (automaticInvalid ? 1 : 0)
-            case .validateEditingDidEnd(let automaticInvalid):
+            case let .validateEditingDidEnd(automaticInvalid):
                 return 3 + (automaticInvalid ? 1 : 0)
             case .clearEditingDidBegin:
                 return 5
@@ -393,7 +393,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     var validationMinimumValue: Int? {
         for validationCheck in validationChecks {
             switch validationCheck {
-            case .minimumValue(let minimumValue):
+            case let .minimumValue(minimumValue):
                 return minimumValue
             default:
                 break
@@ -405,7 +405,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     var validationMaximumValue: Int? {
         for validationCheck in validationChecks {
             switch validationCheck {
-            case .maximumValue(let maximumValue):
+            case let .maximumValue(maximumValue):
                 return maximumValue
             default:
                 break
@@ -857,7 +857,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         return (string.trimmingCharacters(in: characterSet).characters.count == string.characters.count)
     }
 
-    fileprivate func numericCheckTextField(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    fileprivate func numericCheckTextField(_: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
 
         guard validationChecks.contains(.numeric) else {
             return true
@@ -873,7 +873,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         return string.trimmingCharacters(in: CharacterSet(charactersIn: numbers).inverted).characters.count == string.characters.count
     }
 
-    fileprivate func maximumLengthLimitTextField(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    fileprivate func maximumLengthLimitTextField(_: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
 
         guard limitMaximumLength != 0 else {
             return true
@@ -989,7 +989,7 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     /**
      Implementation of TextFieldValidator protocol
      */
-    func validateTextField(_ textField: ValidatingTextField) -> ValidationStatus {
+    func validateTextField(_: ValidatingTextField) -> ValidationStatus {
 
         if validationChecks.contains(.notEmpty) && text!.characters.count < 1 {
             return .empty
@@ -1003,12 +1003,12 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
                     return .empty
                 }
                 break
-            case .minimumLength(let minimumLength):
+            case let .minimumLength(minimumLength):
                 if text!.characters.count < minimumLength {
                     return .short(length: text!.characters.count, minimumLength: minimumLength)
                 }
                 break
-            case .maximumLength(let maximumLength):
+            case let .maximumLength(maximumLength):
                 if text!.characters.count > maximumLength {
                     return .long(length: text!.characters.count, maximumLength: maximumLength)
                 }
@@ -1029,19 +1029,19 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
                     return .malformed
                 }
                 break
-            case .minimumValue(let minimumValue):
+            case let .minimumValue(minimumValue):
                 let value = Int(self.text!)
                 if value == nil || value! < minimumValue {
                     return .low(value: value ?? 0, minimumValue: minimumValue)
                 }
                 break
-            case .maximumValue(let maximumValue):
+            case let .maximumValue(maximumValue):
                 let value = Int(self.text!)
                 if value == nil || value! > maximumValue {
                     return .high(value: value ?? 0, maximumValue: maximumValue)
                 }
                 break
-            case .matchField(let field):
+            case let .matchField(field):
                 if field.text != text {
                     return .mismatch
                 }

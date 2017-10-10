@@ -11,18 +11,18 @@ import SwiftyJSON
 extension JSON {
 
     public var date: Date? {
-        switch self.type {
+        switch type {
         case .string:
-            return JSONNSDateFormatter.jsonDateFormatter.date(from: self.object as! String)
+            return JSONNSDateFormatter.jsonDateFormatter.date(from: object as! String)
         default:
             return nil
         }
     }
 
     public var dateTime: Date? {
-        switch self.type {
+        switch type {
         case .string:
-            return JSONNSDateFormatter.jsonDateTimeFormatter.date(from: self.object as! String)
+            return JSONNSDateFormatter.jsonDateTimeFormatter.date(from: object as! String)
         default:
             return nil
         }

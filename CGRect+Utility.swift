@@ -20,22 +20,22 @@ extension CGRect {
      Return a new CGRect with the origin point at (0,0)
      */
     func atOrigin() -> CGRect {
-        return CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        return CGRect(x: 0, y: 0, width: size.width, height: size.height)
     }
 
     var center: CGPoint {
-        return CGPoint(x: self.midX, y: self.midY)
+        return CGPoint(x: midX, y: midY)
     }
 
     func scaleBy(_ x: CGFloat, y: CGFloat) -> CGRect {
-        return self.insetBy(dx: self.size.width - (self.size.width * x), dy: self.size.height - (self.size.height * y))
+        return insetBy(dx: size.width - (size.width * x), dy: size.height - (size.height * y))
     }
 
     func innerSquare() -> CGRect {
-        return CGRect(centerX: self.center.x, centerY: self.center.y, width: max(self.size.width, self.size.height), height: max(self.size.width, self.size.height))
+        return CGRect(centerX: center.x, centerY: center.y, width: max(size.width, size.height), height: max(size.width, size.height))
     }
 
     func containingSquare() -> CGRect {
-        return CGRect(centerX: self.center.x, centerY: self.center.y, width: max(self.size.width, self.size.height), height: max(self.size.width, self.size.height))
+        return CGRect(centerX: center.x, centerY: center.y, width: max(size.width, size.height), height: max(size.width, size.height))
     }
 }

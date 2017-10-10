@@ -42,7 +42,7 @@ extension UIColor {
         var g2: CGFloat = 0
         var b2: CGFloat = 0
         var a2: CGFloat = 0
-        self.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
+        getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
         color2.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
         let red: CGFloat = r1 * beta + r2 * alpha2
         let green: CGFloat = g1 * beta + g2 * alpha2

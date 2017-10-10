@@ -22,7 +22,7 @@ extension Request {
         func failureRetryCallback(error: RequestError) {
             if error.httpStatusCode == nil {
                 DDLogWarn("RequestExtensions: Failed with network error, retrying in 5...")
-                let newRequest = self.repeated().onSuccess(successCallback).onFailure(failureRetryCallback)
+                let newRequest = repeated().onSuccess(successCallback).onFailure(failureRetryCallback)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     newRequest.start()
                 }

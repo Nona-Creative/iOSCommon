@@ -117,7 +117,7 @@ extension UIImage {
 
         // Clear and draw again
         UIGraphicsGetCurrentContext()!.clear(CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        var attributes = [NSAttributedStringKey.font.rawValue: newFont, NSAttributedStringKey.foregroundColor: color] as! [String: Any]
+        var attributes = [NSAttributedStringKey.font.rawValue: newFont, NSAttributedStringKey.foregroundColor: color] as! [NSAttributedStringKey: Any]
         if letterpressStyle {
             attributes[NSAttributedStringKey.textEffect] = NSAttributedString.TextEffectStyle.letterpressStyle
         }

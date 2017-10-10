@@ -15,7 +15,7 @@ extension UIImage {
     func scaleTo(width: Float, height: Float, scale: Float = 0) -> UIImage {
         let newSize = CGSize(width: CGFloat(width), height: CGFloat(height))
         UIGraphicsBeginImageContextWithOptions(newSize, false, CGFloat(scale))
-        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage!
@@ -31,8 +31,8 @@ extension UIImage {
             cropRect = CGRect(x: 0, y: top, width: size.width, height: size.width)
         }
 
-        let imageRef = self.cgImage?.cropping(to: cropRect)
-        let cropped = UIImage(cgImage: imageRef!, scale: 0, orientation: self.imageOrientation)
+        let imageRef = cgImage?.cropping(to: cropRect)
+        let cropped = UIImage(cgImage: imageRef!, scale: 0, orientation: imageOrientation)
         return cropped
     }
 
@@ -43,15 +43,15 @@ extension UIImage {
         let scaledHeight: CGFloat
         let thumbnailPoint: CGPoint
 
-        if self.size.equalTo(targetSize) {
+        if size.equalTo(targetSize) {
             scaledWidth = targetWidth
             scaledHeight = targetHeight
             thumbnailPoint = CGPoint(x: 0.0, y: 0.0)
         } else {
             let scaleFactor: CGFloat
 
-            let widthFactor = targetWidth / self.size.width
-            let heightFactor = targetHeight / self.size.height
+            let widthFactor = targetWidth / size.width
+            let heightFactor = targetHeight / size.height
 
             if widthFactor > heightFactor {
                 scaleFactor = widthFactor // scale to fit height
@@ -59,8 +59,8 @@ extension UIImage {
                 scaleFactor = heightFactor // scale to fit width
             }
 
-            scaledWidth = self.size.width * scaleFactor
-            scaledHeight = self.size.height * scaleFactor
+            scaledWidth = size.width * scaleFactor
+            scaledHeight = size.height * scaleFactor
 
             // center the image
             if widthFactor > heightFactor {
@@ -79,7 +79,7 @@ extension UIImage {
         thumbnailRect.size.width = scaledWidth
         thumbnailRect.size.height = scaledHeight
 
-        self.draw(in: thumbnailRect)
+        draw(in: thumbnailRect)
 
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
 
