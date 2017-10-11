@@ -216,11 +216,12 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         }
     }
 
-    @IBInspectable var rightViewInset: CGFloat!
-    @IBInspectable var textInsetLeft: CGFloat!
-    @IBInspectable var textInsetRight: CGFloat!
-    @IBInspectable var textInsetRightEditing: CGFloat!
-    @IBInspectable var textInsetRightPlaceholder: CGFloat!
+    // Sentinel values since we can't have nullable CGFloat or NSNumber in Xcode 9
+    @IBInspectable var rightViewInset: CGFloat = -1.0
+    @IBInspectable var textInsetLeft: CGFloat = -1.0
+    @IBInspectable var textInsetRight: CGFloat = -1.0
+    @IBInspectable var textInsetRightEditing: CGFloat = -1.0
+    @IBInspectable var textInsetRightPlaceholder: CGFloat = -1.0
     @IBInspectable var showSecureTextToggle: Bool = false
 
     @IBInspectable var rightImageShowSecureText: UIImage? {
@@ -241,15 +242,15 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         }
     }
 
-    @IBInspectable var cornerRadius: CGFloat? {
+    @IBInspectable var cornerRadius: CGFloat = -1.0 {
         didSet {
-            layer.cornerRadius = cornerRadius ?? 0
+            layer.cornerRadius = cornerRadius != -1.0 ? cornerRadius : 0
         }
     }
 
-    @IBInspectable var borderWidth: CGFloat? {
+    @IBInspectable var borderWidth: CGFloat = -1.0 {
         didSet {
-            layer.borderWidth = borderWidth ?? 0
+            layer.borderWidth = borderWidth != -1.0 ? cornerRadius : 0
         }
     }
 
@@ -584,11 +585,11 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
 
     fileprivate func setupDefaults() {
         // Border
-        if cornerRadius == nil {
+        if cornerRadius == -1 {
             cornerRadius = appearance.cornerRadius
         }
 
-        if borderWidth == nil {
+        if borderWidth == -1 {
             borderWidth = appearance.borderWidth
         }
 
@@ -620,16 +621,16 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
         }
 
         // Insets
-        if rightViewInset == nil {
+        if rightViewInset == -1 {
             rightViewInset = appearance.rightViewInset
         }
-        if textInsetLeft == nil {
+        if textInsetLeft == -1 {
             textInsetLeft = appearance.textInsetLeft
         }
-        if textInsetRight == nil {
+        if textInsetRight == -1 {
             textInsetRight = appearance.textInsetRight
         }
-        if textInsetRightEditing == nil {
+        if textInsetRightEditing == -1 {
             textInsetRightEditing = appearance.textInsetRightEditing
         }
 
@@ -666,8 +667,8 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
 
         // Border
         borderStyle = .none
-        self.layer.cornerRadius = cornerRadius!
-        self.layer.borderWidth = borderWidth!
+        self.layer.cornerRadius = cornerRadius
+        self.layer.borderWidth = borderWidth
 
         setBorderColor(defaultBorderColor, withAnimation: false)
         textColor = isEnabled ? defaultTextColor : disabledTextColor
@@ -900,8 +901,8 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     }
 
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let textInsetLeft = self.textInsetLeft ?? appearance.textInsetLeft
-        let textInsetRight = self.textInsetRight ?? appearance.textInsetRight
+        let textInsetLeft = self.textInsetLeft != -1 ? self.textInsetLeft : appearance.textInsetLeft
+        let textInsetRight = self.textInsetRight != -1 ? self.textInsetRight : appearance.textInsetRight
         return CGRect(x: bounds.origin.x + textInsetLeft + leftViewWidth,
                       y: bounds.origin.y,
                       width: bounds.size.width - (textInsetRight + rightViewWidth + leftViewWidth),
@@ -909,8 +910,8 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     }
 
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let textInsetLeft = self.textInsetLeft ?? appearance.textInsetLeft
-        let textInsetRightEditing = self.textInsetRightEditing ?? appearance.textInsetRightEditing
+        let textInsetLeft = self.textInsetLeft != -1 ? self.textInsetLeft : appearance.textInsetLeft
+        let textInsetRightEditing = self.textInsetRightEditing != -1 ? self.textInsetRightEditing : appearance.textInsetRightEditing
         return CGRect(x: bounds.origin.x + textInsetLeft + leftViewWidth,
                       y: bounds.origin.y,
                       width: bounds.size.width - (textInsetRightEditing + rightViewWidth + leftViewWidth),
@@ -918,8 +919,8 @@ class ValidatingTextField: UITextField, UITextFieldDelegate, ValidatingTextField
     }
 
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        let textInsetLeft = self.textInsetLeft ?? appearance.textInsetLeft
-        let textInsetRight = self.textInsetRightPlaceholder ?? self.textInsetRightPlaceholder ?? appearance.textInsetRightPlaceholder
+        let textInsetLeft = self.textInsetLeft != -1 ? self.textInsetLeft : appearance.textInsetLeft
+        let textInsetRight = self.textInsetRightPlaceholder != -1 ? self.textInsetRightPlaceholder : appearance.textInsetRightPlaceholder
         return CGRect(x: bounds.origin.x + textInsetLeft + leftViewWidth,
                       y: bounds.origin.y,
                       width: bounds.size.width - (textInsetRight + rightViewWidth + leftViewWidth),
