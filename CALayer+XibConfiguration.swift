@@ -12,7 +12,7 @@ import UIKit
  Allow some additional configuration of layers from xibs.
  */
 extension CALayer {
-    var borderUIColor: UIColor? {
+    @objc var borderUIColor: UIColor? {
         get {
             if let borderColor = borderColor {
                 return UIColor(cgColor: borderColor)
@@ -25,7 +25,7 @@ extension CALayer {
         }
     }
 
-    var backgroundUIColor: UIColor? {
+    @objc var backgroundUIColor: UIColor? {
         get {
             if let backgroundColor = backgroundColor {
                 return UIColor(cgColor: backgroundColor)
