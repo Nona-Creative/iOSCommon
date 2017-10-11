@@ -24,20 +24,24 @@ extension String {
         return String(self[index(startIndex, offsetBy: r.lowerBound) ... index(startIndex, offsetBy: r.upperBound)])
     }
 
+    subscript(r: CountableRange<Int>) -> String {
+        return String(self[index(startIndex, offsetBy: r.lowerBound) ..< index(startIndex, offsetBy: r.upperBound)])
+    }
+
     subscript(r: CountableClosedRange<Int>) -> String {
         return String(self[index(startIndex, offsetBy: r.lowerBound) ... index(startIndex, offsetBy: r.upperBound)])
     }
 
-    subscript(value: PartialRangeUpTo<Int>) -> String {
-        return String(self[..<index(startIndex, offsetBy: value.upperBound)])
+    subscript(r: PartialRangeUpTo<Int>) -> String {
+        return String(self[..<index(startIndex, offsetBy: r.upperBound)])
     }
 
-    subscript(value: PartialRangeThrough<Int>) -> String {
-        return String(self[...index(startIndex, offsetBy: value.upperBound)])
+    subscript(r: PartialRangeThrough<Int>) -> String {
+        return String(self[...index(startIndex, offsetBy: r.upperBound)])
     }
 
-    subscript(value: PartialRangeFrom<Int>) -> String {
-        return String(self[index(startIndex, offsetBy: value.lowerBound)...])
+    subscript(r: PartialRangeFrom<Int>) -> String {
+        return String(self[index(startIndex, offsetBy: r.lowerBound)...])
     }
 
     func rangeFromNSRange(_ nsRange: NSRange) -> Range<String.Index>? {
