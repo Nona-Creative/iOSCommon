@@ -64,6 +64,6 @@ extension MBProgressHUDDelegate where Self: UIViewController {
 
 extension UIViewController {
     // Stub to allow RAC to trigger
-    func hudWasHidden(_: MBProgressHUD) {
+    @objc func hudWasHidden(_: MBProgressHUD) {
     }
 }
