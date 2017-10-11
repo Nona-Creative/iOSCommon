@@ -39,7 +39,7 @@ extension MBProgressHUDDelegate where Self: UIViewController {
             nav.view.addSubview(hud)
             nav.interactivePopGestureRecognizer!.isEnabled = false
 
-            (self as UIViewController).reactive.trigger(for: #selector(MBProgressHUDDelegate.hudWasHidden(_:))).take(first: 1).observeValues { _ in
+            (self as UIViewController).reactive.trigger(for: #selector(UIViewController.hudWasHidden(_:))).take(first: 1).observeValues { _ in
                 nav.interactivePopGestureRecognizer!.isEnabled = true
             }
         } else {

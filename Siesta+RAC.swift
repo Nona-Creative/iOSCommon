@@ -22,7 +22,7 @@ extension Resource {
                 observer.send(error: error)
             }
 
-            _ = disposable.add {
+            _ = disposable.observeEnded {
                 request.cancel()
             }
         }
